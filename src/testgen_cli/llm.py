@@ -82,14 +82,14 @@ def _build_user_prompt(fn_source: str) -> str:
 def _generate_with_openai(fn_source: str) -> str:
     # OpenAI provider env vars:
     # - TESTGEN_LLM_PROVIDER=openai (default when unset)
-    # - OPENAI_API_KEY=<your OpenAI API key>
+    # - OPENAI_API_KEY=< OpenAI API key>
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise LLMGenerationError("Missing required environment variable: OPENAI_API_KEY")
 
     try:
         from openai import OpenAI
-    except Exception as exc:  # pragma: no cover - depends on environment
+    except Exception as exc: 
         raise LLMGenerationError(
             f"OpenAI SDK unavailable. {_safe_error_message(exc, [api_key])}"
         ) from exc
@@ -114,7 +114,7 @@ def _generate_with_openai(fn_source: str) -> str:
 def _generate_with_gemini(fn_source: str) -> str:
     # Gemini provider env vars:
     # - TESTGEN_LLM_PROVIDER=gemini
-    # - GEMINI_API_KEY=<your Gemini API key>
+    # - GEMINI_API_KEY=<Gemini API key>
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise LLMGenerationError("Missing required environment variable: GEMINI_API_KEY")
