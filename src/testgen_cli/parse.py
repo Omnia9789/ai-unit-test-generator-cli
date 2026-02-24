@@ -13,7 +13,6 @@ class FunctionInfo:
 
 
 def _is_module_docstring_node(node: ast.AST) -> bool:
-    # A module docstring appears as: Expr(Constant(str))
     if not isinstance(node, ast.Expr):
         return False
     value = getattr(node, "value", None)
@@ -43,12 +42,10 @@ def extract_single_function_source(source: str) -> Optional[str]:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             funcs.append(node)
             continue
-
-        # Allow module docstring ONLY if it's the first statement
+       
         if idx == 0 and _is_module_docstring_node(node):
             continue
 
-        # Any other top-level node means "not a single function"
         return None
 
     if len(funcs) != 1:
