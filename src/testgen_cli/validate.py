@@ -68,8 +68,7 @@ def _validate_top_level_structure(tree: ast.Module) -> ValidationResult:
                 continue
             return ValidationResult(False, f"non-test function not allowed: {node.name}")
 
-        # Optional: allow a module docstring? For strictness, reject all Expr top-level nodes.
-        # Reject everything else (classes, assignments, expressions, calls, etc.)
+    
         return ValidationResult(False, f"disallowed top-level node: {type(node).__name__}")
 
     if test_count < 1:
