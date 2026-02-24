@@ -28,27 +28,23 @@ def strip_docstrings_from_function(source: str) -> str:
     """
     tree = ast.parse(source)
     if not tree.body or not isinstance(tree.body[0], (ast.FunctionDef, ast.AsyncFunctionDef)):
-        return source  # defensive
+        return source  
 
     fn = tree.body[0]
 
-    # Function docstring appears as first statement in function body: Expr(Constant(str))
     if (
         fn.body
         and isinstance(fn.body[0], ast.Expr)
         and isinstance(getattr(fn.body[0], "value", None), ast.Constant)
         and isinstance(fn.body[0].value.value, str)
     ):
-        # Remove that first statement
+      
         fn.body = fn.body[1:]
 
-        # Unparse back to source (Python 3.9+)
         try:
             return ast.unparse(fn).strip() + "\n"
         except Exception:
-            # If unparse fails for any reason, return original
             return source
-
     return source
 
 
@@ -62,6 +58,6 @@ def sanitize_function_source(fn_source: str) -> str:
     no_comments = strip_comments(fn_source)
     no_doc = strip_docstrings_from_function(no_comments)
 
-    # Normalize: remove trailing spaces on lines, ensure newline at end
+
     lines = [line.rstrip() for line in no_doc.splitlines()]
     return "\n".join(lines).strip() + "\n"
