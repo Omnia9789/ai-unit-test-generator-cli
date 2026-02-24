@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "testgen-cli"
+version = "0.1.0"
+description = "CLI tool that generates unit tests for a single Python function"
+requires-python = ">=3.10"
+dependencies = [
+  "openai>=2.0.0",
+  "google-genai>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+]
+
+[project.scripts]
+testgen = "testgen_cli.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
